@@ -108,10 +108,6 @@ class Player:
                             # Finally we can verify a phantom has an overpowered bleed weapon
                             if weapon in weapons_we_want_supporting_phantoms_protecting_most_valuable_host_with:
                                 match = True
-        
-            # Finally we can match an invader to an incredibly fair and balanced
-            # pvp experience
-            match_invader_to_host(match)
 
         # Our host only has one phantom, we absolutely have to ensure it is over-leveled                         
         elif len(host['supporting_phantoms']) = 1:
@@ -120,15 +116,27 @@ class Player:
                 # We should also make sure the host can be joined by a hunter to immediately
                 # even the odds. I wish we could have 5 hunters join at once but our rudamentary
                 # netcode can't handle that.
+                #
+                # If these criteria are not met, we cannot verify a host will be protected
+                # This is unacceptable!!!
                 if host['white_ring_cipher']:
                     match = True
-                
-                    match_invader_to_host(match)
+        else:
+            # We double triple ensure match is false because we don't want no
+            # pesky invaders
+            match = False
+        
+        if match:
+            # We have verified this invasion will be incredibly fair and balanced, providing
+            # a safe pvp experience for the host
+            match_invader_to_host(match)
         else:
             # At this point we could not verify the following:
             # - the host has at least one over leveled phantom
             # - the host has a phantom with at least one broken meta weapon
             # - the host has at least one phantom with spammable spells
+            # - the host has the white cipher ring on so hunters can save them
+            #   and their 1 phantom
             #
             # To that end, we make the invader think there was a timeout.
             # this will make the invader non-stop google for network fixes
